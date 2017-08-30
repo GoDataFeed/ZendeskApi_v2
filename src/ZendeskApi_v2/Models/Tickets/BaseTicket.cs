@@ -21,5 +21,7 @@ namespace ZendeskApi_v2.Models.Tickets
         [JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? UpdatedAt { get; set; }
 
+        [JsonProperty("test")]
+        public string Test { get; set; }
     }
 }

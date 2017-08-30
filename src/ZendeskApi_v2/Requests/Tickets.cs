@@ -34,6 +34,7 @@ namespace ZendeskApi_v2.Requests
     public interface ITickets : ICore
     {
 #if SYNC
+        GroupTicketResponse GetOpenTicketsCountByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions);
 
         GroupTicketFormResponse GetTicketForms();
 
@@ -279,6 +280,11 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
+        public GroupTicketResponse GetOpenTicketsCountByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions)
+        {
+            string resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json?status=open", sideLoadOptions);
+            return GenericGet<GroupTicketResponse>(resource);
+        }
 
         public GroupTicketFormResponse GetTicketForms()
         {

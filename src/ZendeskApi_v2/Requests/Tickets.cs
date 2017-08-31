@@ -30,11 +30,20 @@ namespace ZendeskApi_v2.Requests
         Incident_Counts = 128,
         Ticket_Forms = 256
     }
+    public class TicketStatus
+    {
+        public const string Open = "open";
+        public const string New = "new";
+        public const string Pending = "pending";
+        public const string Hold = "hold";
+        public const string Solved = "solved";
+        public const string Closed = "closed";
+    }
 
     public interface ITickets : ICore
     {
 #if SYNC
-        GroupTicketResponse GetOpenTicketsCountByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions);
+        GroupTicketResponse GetTicketsCount(long organizatoinId, string statusType, TicketSideLoadOptionsEnum sideLoadOptions);
 
         GroupTicketFormResponse GetTicketForms();
 
@@ -280,9 +289,9 @@ namespace ZendeskApi_v2.Requests
         }
 
 #if SYNC
-        public GroupTicketResponse GetOpenTicketsCountByOrganizationID(long id, TicketSideLoadOptionsEnum sideLoadOptions)
+        public GroupTicketResponse GetTicketsCount(long organizaitonId, string statusType, TicketSideLoadOptionsEnum sideLoadOptions)
         {
-            string resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{id}/{_tickets}.json?status=open", sideLoadOptions);
+            string resource = GetResourceStringWithSideLoadOptionsParam($"{_organizations}/{organizaitonId}/{_tickets}.json?status={statusType}", sideLoadOptions);
             return GenericGet<GroupTicketResponse>(resource);
         }
 
